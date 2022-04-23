@@ -12,24 +12,32 @@ int main(int argc, char** argv)
 
     bool exit = false;
     std::string input;
-    std::string path = argv[0];
+    std::string path = argv[1];
 
     logEntry();
 
     while (!exit) {
-        getline(std::cin ,input, '\n');
+        std::cout << "$ ";
+        getline(std::cin, input, '\n');
+        input = input.substr(findChar(input, ' '));
         if (input == "ls") {
-            //path = "D:\\system";
             for (const auto& entry : fs::directory_iterator(path)) {
                 std::cout << entry.path().filename() << " ";
             }
             std::cout << std::endl;
         }
         else if (input == "cd") {
-            getline(std::cin, path, '\n');
-            std::cout << path;
+            path = argv[1];
+        }
+        else if (input[0] == 'c' && input[1] == 'd' && input[2] == ' ') {
+            path = path + "/" + input.substr(3);
+        }
+        else if (input == "pwd") {
+            std::cout << path << std::endl;
         }
         else if (input == "exit")
             exit = true;
+        else
+            std::cout << "-bash: " << input << ": command not found" << std::endl;;
     }
 }
