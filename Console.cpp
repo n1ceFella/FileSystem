@@ -4,6 +4,8 @@
 
 #include <filesystem>
 #include "Filesystem.h"
+#include "Directory.h"
+#include "File.h"
 #include "Utilities.h"
 namespace fs = std::filesystem;
 
@@ -21,6 +23,7 @@ int main(int argc, char** argv)
 
     logEntry();
 
+    //TO DO: Iterate through all files in foulder and create instances if not exist
     while (!exit) {
         std::cout << "$ ";
         getline(std::cin, input, '\n');
@@ -45,8 +48,17 @@ int main(int argc, char** argv)
         }
         else if (input.substr(0,5) == "mkdir") {
             //create phusical directory here
+            fs::create_directory(workingDir->path() + input.substr(6));
+
             sdds::Directory* t = new sdds::Directory(input.substr(6) + "/");
             *workingDir += t;
+        }
+        else if (input.substr(0, 5) == "touch") {
+            //create phusical directory here
+            std::ofstream file(workingDir->path() + input.substr(6));
+
+            sdds::File* f = new sdds::File(input.substr(6));
+            *workingDir += f;
         }
         else if (input == "exit")
             exit = true;
