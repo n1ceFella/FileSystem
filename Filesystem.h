@@ -18,7 +18,8 @@ namespace sdds
 		Directory* m_root; 
 		Directory* m_current;
 	public:
-		Filesystem(std::string fileName, std::string root = "");
+		//Filesystem(std::string fileName, std::string root = "");
+		Filesystem(std::string path, std::string root = "");
 		Filesystem(const Filesystem& rightOperand) = delete; // copy constructor
 		Filesystem& operator=(const Filesystem& rightOperand) = delete; // copy assignment operator
 		Filesystem(Filesystem&& rightOperand);  // move copyconstructor

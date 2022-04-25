@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include <filesystem>
+#include "Filesystem.h"
 #include "Utilities.h"
 namespace fs = std::filesystem;
 
@@ -13,6 +14,7 @@ int main(int argc, char** argv)
     bool exit = false;
     std::string input;
     std::string path = argv[1];
+    sdds::Filesystem fs(path);
 
     logEntry();
 
@@ -37,6 +39,9 @@ int main(int argc, char** argv)
         }
         else if (input == "exit")
             exit = true;
+        else if (input == "cat") {
+
+        }
         else
             std::cout << "-bash: " << input << ": command not found" << std::endl;;
     }

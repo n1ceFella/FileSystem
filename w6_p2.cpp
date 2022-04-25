@@ -53,7 +53,7 @@
 //        std::cout << "**EXCEPTION: Filesystem should support move operations.\n" << std::endl;
 //    }
 //
-//    sdds::Filesystem fs(argv[1]);
+//    sdds::Filesystem fs("filesystem.txt"); //argv[1]
 //
 //    std::vector<sdds::FormatFlags> fflags;
 //    
