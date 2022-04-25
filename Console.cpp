@@ -16,8 +16,8 @@ int main(int argc, char** argv)
     std::string path = argv[1];
     sdds::Filesystem fs(path);
     sdds::Directory* workingDir = fs.get_current_directory();
-    sdds::Directory* t = new sdds::Directory("temp/");
-    *workingDir += t;
+    //sdds::Directory* t = new sdds::Directory("temp/");
+    //*workingDir += t;
 
     logEntry();
 
@@ -43,11 +43,14 @@ int main(int argc, char** argv)
             //std::cout << path << std::endl;
             std::cout << workingDir->path() << std::endl;
         }
+        else if (input.substr(0,5) == "mkdir") {
+            //create phusical directory here
+            sdds::Directory* t = new sdds::Directory(input.substr(6) + "/");
+            *workingDir += t;
+        }
         else if (input == "exit")
             exit = true;
-        else if (input == "cat") {
 
-        }
         else
             std::cout << "-bash: " << input << ": command not found" << std::endl;;
     }
