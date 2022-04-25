@@ -15,7 +15,7 @@ namespace sdds {
         // Stores the name of the resource
         std::string m_name{};
         // Stores the absolute path of the folder where the resource is located
-        std::string m_parent_path = "/";
+        std::string m_parent_path = ""; // removed '/' for root dir
 
     public:
         virtual void update_parent_path(const std::string&) = 0;

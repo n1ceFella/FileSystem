@@ -143,6 +143,7 @@
     <ClInclude Include="Directory.h" />
     <ClInclude Include="File.h" />
     <ClInclude Include="Filesystem.h" />
+    <ClInclude Include="Resource.h" />
     <ClInclude Include="Utilities.h" />
   </ItemGroup>
   <ItemGroup>
