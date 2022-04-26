@@ -18,19 +18,41 @@ int main(int argc, char** argv)
     std::string path = argv[1];
     sdds::Filesystem fs(path);
     sdds::Directory* workingDir = fs.get_current_directory();
+    std::vector<sdds::OpFlags> oflags;
+    oflags.push_back(sdds::OpFlags::RECURSIVE);
     //sdds::Directory* t = new sdds::Directory("temp/");
     //*workingDir += t;
 
+    //TO DO: Iterate through all files in foulder and create instances if not exist
+    for (const auto& entry : fs::directory_iterator(workingDir->path())) {
+        std::string fname{ entry.path().filename().u8string()};
+        Resource* res{};
+        if (fname.find('.') == std::string::npos) {
+            fname += "/";
+            res = new Directory(fname);
+        }
+        else res = new File(fname);
+        *workingDir += res;
+            
+
+        //workingDir->find(fname, oflags);
+    }
+
+    if (workingDir->count() > 0) {
+        
+    }
+
     logEntry();
 
-    //TO DO: Iterate through all files in foulder and create instances if not exist
+    
     while (!exit) {
         std::cout << "$ ";
         getline(std::cin, input, '\n');
         input = input.substr(findChar(input, ' '));
         if (input == "ls") {
             for (const auto& entry : fs::directory_iterator(workingDir->path())) {
-                std::cout << entry.path().filename() << " ";
+                std::string fname{ entry.path().filename().u8string() };
+                std::cout << fname << " ";
             }
             std::cout << std::endl;
         }
@@ -54,7 +76,7 @@ int main(int argc, char** argv)
             *workingDir += t;
         }
         else if (input.substr(0, 5) == "touch") {
-            //create phusical directory here
+                //create phusical directory here
             std::ofstream file(workingDir->path() + input.substr(6));
 
             sdds::File* f = new sdds::File(input.substr(6));
