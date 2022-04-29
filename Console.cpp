@@ -10,6 +10,34 @@
 namespace fs = std::filesystem;
 
 using namespace sdds;
+
+void init(std::string path, Directory* workingDir) {
+    //TO DO: Iterate through all files in foulder and create instances if not exist
+    for (const auto& entry : fs::directory_iterator(path)) {
+        std::string fname{ entry.path().filename().u8string() };
+        Resource* res{};
+        if (fname.find('.') == std::string::npos) {
+            fname += "/";
+            res = new Directory(fname);
+            *workingDir += res;
+            init(res->path(), workingDir);
+        }
+        else {
+            res = new File(fname);
+            *workingDir += res;
+        } 
+        
+
+
+        //workingDir->find(fname, oflags);
+    }
+
+    //if (workingDir->count() > 0) {
+
+    //}
+}
+
+
 int main(int argc, char** argv)
 {
 
@@ -23,24 +51,8 @@ int main(int argc, char** argv)
     //sdds::Directory* t = new sdds::Directory("temp/");
     //*workingDir += t;
 
-    //TO DO: Iterate through all files in foulder and create instances if not exist
-    for (const auto& entry : fs::directory_iterator(workingDir->path())) {
-        std::string fname{ entry.path().filename().u8string()};
-        Resource* res{};
-        if (fname.find('.') == std::string::npos) {
-            fname += "/";
-            res = new Directory(fname);
-        }
-        else res = new File(fname);
-        *workingDir += res;
-            
 
-        //workingDir->find(fname, oflags);
-    }
-
-    if (workingDir->count() > 0) {
-        
-    }
+    init(path, workingDir);
 
     logEntry();
 
