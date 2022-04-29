@@ -64,12 +64,12 @@ namespace sdds
 		else throw std::exception();	
 	}
 	//find file or directory
-	Resource* Directory::find(const std::string& name, const std::vector<OpFlags>& flag) {
+	Resource* Directory::find(const std::string& name, const bool recursive) {
 		Resource* temp{};
 		for (auto i : m_contents) {
-			if (!flag.empty() && flag[0] == OpFlags::RECURSIVE) {
+			if (recursive) {
 				if (i->type() == NodeType::DIR)
-					temp = dynamic_cast<Directory*>(i)->find(name, flag);
+					temp = dynamic_cast<Directory*>(i)->find(name, recursive);
 			}
 			if (name == i->name())
 				return i;
@@ -77,17 +77,17 @@ namespace sdds
 		return temp;
 	}
 	//remove file or directory
-	void Directory::remove(const std::string& name, const std::vector<OpFlags>& flag) {
+	void Directory::remove(const std::string& name, const bool recursive) {
 		Resource* temp{};
 
 		//find address of directory
-		temp = find(name, flag);
+		temp = find(name, recursive);
 		//if not found throw exception
 		if(!temp)
 			throw string(name + " does not exist in DIRECTORY_NAME");
 		//if directory check for recursive flag
 		if (temp->type() == NodeType::DIR) {
-			if(flag.empty())
+			if(!recursive)
 				throw std::invalid_argument(name + " is a directory.Pass the recursive flag to delete directories.");
 		}
 		//find element in collection, delete it, dealocate memory
@@ -103,7 +103,7 @@ namespace sdds
 		}
 	}
 	//display formatted data
-	void Directory::display(std::ostream& ostr, const std::vector<FormatFlags>& flag) const {
+	void Directory::display(std::ostream& ostr, const bool recursive) const {
 		ostr << "Total size: " << size() << " bytes" << endl;
 		for (int i = 0; i < count(); i++)
 		{
@@ -116,7 +116,7 @@ namespace sdds
 			ostr << m_contents[i]->name();
 			ostr.unsetf(ios::left);
 			ostr << " |";
-			if (!flag.empty()) {
+			if (recursive) {
 				ostr.width(3);
 				ostr.setf(ios::right);
 				if(m_contents[i]->type() == NodeType::DIR)

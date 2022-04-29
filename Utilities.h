@@ -3,7 +3,11 @@
 #include <iostream>
 #include <fstream> 
 #include <chrono>
-#include <ctime>    
+#include <ctime> 
+#include <filesystem>
+#include "Filesystem.h"
+#include "Directory.h"
+#include "File.h"
 
 namespace sdds
 {
@@ -22,6 +26,23 @@ namespace sdds
 		}
 		return 0;
 	}
+    static void init(std::string path, Directory* workingDir) {
+        //TO DO: Iterate through all files in folder and create instances if not exist
+        for (const auto& entry : std::filesystem::directory_iterator(path)) {
+            std::string fname{ entry.path().filename().u8string() };
+            Resource* res{};
+            if (fname.find('.') == std::string::npos) {
+                fname += "/";
+                res = new Directory(fname);
+                *workingDir += res;
+                init(res->path(), workingDir);
+            }
+            else {
+                res = new File(fname);
+                *workingDir += res;
+            }
+        }
+    }
 	static std::string getDate() {
 		auto start = std::chrono::system_clock::now();
 		// Some computation here

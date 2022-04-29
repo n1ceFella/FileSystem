@@ -26,9 +26,9 @@ namespace sdds
 		size_t size() const;
 		NodeType type() const;
 		Directory& operator+=(Resource* res);
-		Resource* find(const std::string& name, const std::vector<OpFlags>& flag = {});
-		void remove(const std::string& name, const std::vector<OpFlags> & flag = {});
-		void display(std::ostream& ostr, const std::vector<FormatFlags>& flag = {}) const;
+		Resource* find(const std::string& name, const bool recursive = false);
+		void remove(const std::string& name, const bool recursive = false);
+		void display(std::ostream& ostr, const bool recursive = false) const;
 		~Directory();
 		Directory(const Directory& rightOperand) = delete; // copy constructor
 		Directory& operator=(const Directory& rightOperand) = delete; // copy assignment operator

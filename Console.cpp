@@ -1,7 +1,6 @@
 #define  _CRT_SECURE_NO_WARNINGS
 #include <string>
 #include <iostream>
-
 #include <filesystem>
 #include "Filesystem.h"
 #include "Directory.h"
@@ -10,34 +9,6 @@
 namespace fs = std::filesystem;
 
 using namespace sdds;
-
-void init(std::string path, Directory* workingDir) {
-    //TO DO: Iterate through all files in foulder and create instances if not exist
-    for (const auto& entry : fs::directory_iterator(path)) {
-        std::string fname{ entry.path().filename().u8string() };
-        Resource* res{};
-        if (fname.find('.') == std::string::npos) {
-            fname += "/";
-            res = new Directory(fname);
-            *workingDir += res;
-            init(res->path(), workingDir);
-        }
-        else {
-            res = new File(fname);
-            *workingDir += res;
-        } 
-        
-
-
-        //workingDir->find(fname, oflags);
-    }
-
-    //if (workingDir->count() > 0) {
-
-    //}
-}
-
-
 int main(int argc, char** argv)
 {
 
@@ -46,11 +17,6 @@ int main(int argc, char** argv)
     std::string path = argv[1];
     sdds::Filesystem fs(path);
     sdds::Directory* workingDir = fs.get_current_directory();
-    std::vector<sdds::OpFlags> oflags;
-    oflags.push_back(sdds::OpFlags::RECURSIVE);
-    //sdds::Directory* t = new sdds::Directory("temp/");
-    //*workingDir += t;
-
 
     init(path, workingDir);
 

@@ -57,7 +57,7 @@ namespace sdds
 			m_current = m_root;
 		}
 		else {
-			Directory* newDir = dynamic_cast<Directory*>(m_root->find(name, oflags));
+			Directory* newDir = dynamic_cast<Directory*>(m_root->find(name, true));
 			if (!newDir)
 				throw std::invalid_argument("Cannot change directory! " + name + " not found!");
 			return newDir;
