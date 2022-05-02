@@ -39,7 +39,12 @@ int main(int argc, char** argv)
             //path = argv[1];
         }
         else if (input[0] == 'c' && input[1] == 'd' && input[2] == ' ') {
-            workingDir = fs.change_directory(input.substr(3) + "/");
+            //add ../ and ./
+            //
+
+            input = input.substr(3);
+            input = input.substr(findChar(input, ' '));
+            workingDir = fs.change_directory(input + "/");
             //path = path + "/" + input.substr(3);
         }
         else if (input == "pwd") {
